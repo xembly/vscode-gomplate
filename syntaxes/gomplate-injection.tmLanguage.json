@@ -1,0 +1,7 @@
+{
+  "scopeName": "gomplate.injection",
+  "injectionSelector": "L:source.yaml, L:source.goyaml, L:text.html.basic, L:source.gohtml, L:source.js, L:source.gojs, L:source.ts, L:source.gots, L:source.json, L:source.gojson, L:source.css, L:source.gocss, L:source.shell, L:source.goshell, L:source.php, L:source.gophp, L:source.java, L:source.gojava, L:source.go, L:source.gogo, L:source.dockerfile, L:source.godockerfile, L:source.r, L:source.goR",
+  "patterns": [
+    { "include": "source.gomplate" }
+  ]
+}

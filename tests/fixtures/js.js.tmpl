@@ -1,0 +1,36 @@
+// Basic variable substitution in JS context
+const apiUrl = "{{ .apiUrl }}";
+const enabled = {{ .enabled }};
+const timeout = {{ .timeout }};
+
+// REGRESSION TEST: array literal with gomplate inside
+// Before the injection grammar fix, JS tokenised [...] blocks and
+// the gomplate constructs inside could be misread.
+const regions = [{{ join .regions ", " }}];
+const items = [{{ range .items }}"{{ . }}", {{ end }}];
+
+// REGRESSION TEST: object literal with gomplate inside
+const config = {
+    host: "{{ .host }}",
+    port: {{ .port }},
+    debug: {{ .debug }},
+};
+
+// Control flow
+{{ if .featureFlag }}
+const feature = true;
+{{ else }}
+const feature = false;
+{{ end }}
+
+{{ range .modules }}
+import "{{ . }}";
+{{ end }}
+
+// Pipe operator and built-in functions
+const name = "{{ .name | printf "%s" }}";
+const count = {{ len .items }};
+
+// Variable assignment
+{{ $prefix := .prefix }}
+const prefix = "{{ $prefix }}";

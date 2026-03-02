@@ -1,0 +1,6 @@
+[tools]
+node = "22"
+
+[tasks.debug]
+description = "Debugs the extension in a bare VS Code environment."
+run = "/opt/homebrew/bin/code --extensionDevelopmentPath={{cwd}} --disable-extensions --profile Bare tests"

@@ -1,0 +1,253 @@
+>{{- $enabled := .enabled -}}
+#^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#  ^^ source.gomplate
+#    ^^^^^^^^ source.gomplate variable.other.gomplate
+#            ^ source.gomplate
+#             ^^ source.gomplate keyword.operator.initialize.gomplate
+#               ^ source.gomplate
+#                ^^^^^^^^ source.gomplate variable.other.gomplate
+#                        ^^ source.gomplate
+#                          ^^ source.gomplate punctuation.section.embedded.end.gomplate
+># Basic variable substitution
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>key: {{ .value }}
+#^^^^^ source.gomplate
+#     ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#       ^ source.gomplate
+#        ^^^^^^ source.gomplate variable.other.gomplate
+#              ^ source.gomplate
+#               ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>item: {{ index .list 0 }}
+#^^^^^^ source.gomplate
+#      ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#        ^ source.gomplate
+#         ^^^^^ source.gomplate support.function.builtin.gomplate
+#              ^ source.gomplate
+#               ^^^^^ source.gomplate variable.other.gomplate
+#                    ^^^ source.gomplate
+#                       ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>
+># String literal and built-in function
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>label: {{ print "hello" }}
+#^^^^^^^ source.gomplate
+#       ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#         ^ source.gomplate
+#          ^^^^^ source.gomplate support.function.builtin.gomplate
+#               ^ source.gomplate
+#                ^ source.gomplate string.quoted.double.gomplate punctuation.definition.string.begin.gomplate
+#                 ^^^^^ source.gomplate string.quoted.double.gomplate
+#                      ^ source.gomplate string.quoted.double.gomplate punctuation.definition.string.end.gomplate
+#                       ^ source.gomplate
+#                        ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>greeting: {{ printf "Hello, %s!" .name }}
+#^^^^^^^^^^ source.gomplate
+#          ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#            ^ source.gomplate
+#             ^^^^^^ source.gomplate support.function.builtin.gomplate
+#                   ^ source.gomplate
+#                    ^ source.gomplate string.quoted.double.gomplate punctuation.definition.string.begin.gomplate
+#                     ^^^^^^^ source.gomplate string.quoted.double.gomplate
+#                            ^^ source.gomplate string.quoted.double.gomplate constant.other.placeholder.gomplate
+#                              ^ source.gomplate string.quoted.double.gomplate
+#                               ^ source.gomplate string.quoted.double.gomplate punctuation.definition.string.end.gomplate
+#                                ^ source.gomplate
+#                                 ^^^^^ source.gomplate variable.other.gomplate
+#                                      ^ source.gomplate
+#                                       ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>
+># Pipe operator
+#^^^^^^^^^^^^^^^^ source.gomplate
+>value: {{ .name | print }}
+#^^^^^^^ source.gomplate
+#       ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#         ^ source.gomplate
+#          ^^^^^ source.gomplate variable.other.gomplate
+#               ^ source.gomplate
+#                ^ source.gomplate keyword.operator.pipe.gomplate
+#                 ^ source.gomplate
+#                  ^^^^^ source.gomplate support.function.builtin.gomplate
+#                       ^ source.gomplate
+#                        ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>
+># Control flow
+#^^^^^^^^^^^^^^^ source.gomplate
+>{{ if .enabled }}
+#^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#  ^ source.gomplate
+#   ^^ source.gomplate keyword.control.gomplate
+#     ^ source.gomplate
+#      ^^^^^^^^ source.gomplate variable.other.gomplate
+#              ^ source.gomplate
+#               ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>enabled: true
+#^^^^^^^^^^^^^^ source.gomplate
+>{{ else }}
+#^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#  ^ source.gomplate
+#   ^^^^ source.gomplate keyword.control.gomplate
+#       ^ source.gomplate
+#        ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>enabled: false
+#^^^^^^^^^^^^^^^ source.gomplate
+>{{ end }}
+#^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#  ^ source.gomplate
+#   ^^^ source.gomplate keyword.control.gomplate
+#      ^ source.gomplate
+#       ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>
+>{{ range .items }}
+#^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#  ^ source.gomplate
+#   ^^^^^ source.gomplate keyword.control.gomplate
+#        ^ source.gomplate
+#         ^^^^^^ source.gomplate variable.other.gomplate
+#               ^ source.gomplate
+#                ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>- {{ . }}
+#^^ source.gomplate
+#  ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#    ^ source.gomplate
+#     ^ source.gomplate variable.other.gomplate
+#      ^ source.gomplate
+#       ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>{{ end }}
+#^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#  ^ source.gomplate
+#   ^^^ source.gomplate keyword.control.gomplate
+#      ^ source.gomplate
+#       ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>
+># Variable assignment
+#^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>{{ $x := .count }}
+#^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#  ^ source.gomplate
+#   ^^ source.gomplate variable.other.gomplate
+#     ^ source.gomplate
+#      ^^ source.gomplate keyword.operator.initialize.gomplate
+#        ^ source.gomplate
+#         ^^^^^^ source.gomplate variable.other.gomplate
+#               ^ source.gomplate
+#                ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>count: {{ $x }}
+#^^^^^^^ source.gomplate
+#       ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#         ^ source.gomplate
+#          ^^ source.gomplate variable.other.gomplate
+#            ^ source.gomplate
+#             ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>
+># REGRESSION TEST: flow sequence with gomplate inside
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+># Before the injection grammar fix, YAML tokenised [{{ }}] as a flow sequence
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+#                                                    ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                                                      ^ source.gomplate
+#                                                       ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                                         ^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+># and misread ", " as a YAML separator instead of a gomplate string literal.
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>regions: [{{ join (keys .regions) ", " }}]
+#^^^^^^^^^^ source.gomplate
+#          ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#            ^^^^^^^^^^^^ source.gomplate
+#                        ^^^^^^^^ source.gomplate variable.other.gomplate
+#                                ^^ source.gomplate
+#                                  ^ source.gomplate string.quoted.double.gomplate punctuation.definition.string.begin.gomplate
+#                                   ^^ source.gomplate string.quoted.double.gomplate
+#                                     ^ source.gomplate string.quoted.double.gomplate punctuation.definition.string.end.gomplate
+#                                      ^ source.gomplate
+#                                       ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                         ^^ source.gomplate
+>tags: [{{ .tagA }}, {{ .tagB }}, {{ .tagC }}]
+#^^^^^^^ source.gomplate
+#       ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#         ^ source.gomplate
+#          ^^^^^ source.gomplate variable.other.gomplate
+#               ^ source.gomplate
+#                ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                  ^^ source.gomplate
+#                    ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                      ^ source.gomplate
+#                       ^^^^^ source.gomplate variable.other.gomplate
+#                            ^ source.gomplate
+#                             ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                               ^^ source.gomplate
+#                                 ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                                   ^ source.gomplate
+#                                    ^^^^^ source.gomplate variable.other.gomplate
+#                                         ^ source.gomplate
+#                                          ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                            ^^ source.gomplate
+>
+># REGRESSION TEST: flow mapping with gomplate inside
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>config: {host: {{ .host }}, port: {{ .port }}}
+#^^^^^^^^^^^^^^^ source.gomplate
+#               ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                 ^ source.gomplate
+#                  ^^^^^ source.gomplate variable.other.gomplate
+#                       ^ source.gomplate
+#                        ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                          ^^^^^^^^ source.gomplate
+#                                  ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                                    ^ source.gomplate
+#                                     ^^^^^ source.gomplate variable.other.gomplate
+#                                          ^ source.gomplate
+#                                           ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                             ^^ source.gomplate
+>labels: {app: {{ .appName }}, env: {{ .env }}}
+#^^^^^^^^^^^^^^ source.gomplate
+#              ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                ^ source.gomplate
+#                 ^^^^^^^^ source.gomplate variable.other.gomplate
+#                         ^ source.gomplate
+#                          ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                            ^^^^^^^ source.gomplate
+#                                   ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                                     ^ source.gomplate
+#                                      ^^^^ source.gomplate variable.other.gomplate
+#                                          ^ source.gomplate
+#                                           ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                             ^^ source.gomplate
+>
+># Nested/complex cases
+#^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>multi: {{ if .debug }}debug{{ else }}release{{ end }}
+#^^^^^^^ source.gomplate
+#       ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#         ^ source.gomplate
+#          ^^ source.gomplate keyword.control.gomplate
+#            ^ source.gomplate
+#             ^^^^^^ source.gomplate variable.other.gomplate
+#                   ^ source.gomplate
+#                    ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                      ^^^^^ source.gomplate
+#                           ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                             ^ source.gomplate
+#                              ^^^^ source.gomplate keyword.control.gomplate
+#                                  ^ source.gomplate
+#                                   ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                     ^^^^^^^ source.gomplate
+#                                            ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                                              ^ source.gomplate
+#                                               ^^^ source.gomplate keyword.control.gomplate
+#                                                  ^ source.gomplate
+#                                                   ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>path: /{{ .tenant }}/{{ .service }}/config
+#^^^^^^^ source.gomplate
+#       ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#         ^ source.gomplate
+#          ^^^^^^^ source.gomplate variable.other.gomplate
+#                 ^ source.gomplate
+#                  ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                    ^ source.gomplate
+#                     ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                       ^ source.gomplate
+#                        ^^^^^^^^ source.gomplate variable.other.gomplate
+#                                ^ source.gomplate
+#                                 ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                   ^^^^^^^^ source.gomplate
+>

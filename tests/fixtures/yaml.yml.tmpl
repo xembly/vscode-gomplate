@@ -1,0 +1,40 @@
+{{- $enabled := .enabled -}}
+# Basic variable substitution
+key: {{ .value }}
+item: {{ index .list 0 }}
+
+# String literal and built-in function
+label: {{ print "hello" }}
+greeting: {{ printf "Hello, %s!" .name }}
+
+# Pipe operator
+value: {{ .name | print }}
+
+# Control flow
+{{ if .enabled }}
+enabled: true
+{{ else }}
+enabled: false
+{{ end }}
+
+{{ range .items }}
+- {{ . }}
+{{ end }}
+
+# Variable assignment
+{{ $x := .count }}
+count: {{ $x }}
+
+# REGRESSION TEST: flow sequence with gomplate inside
+# Before the injection grammar fix, YAML tokenised [{{ }}] as a flow sequence
+# and misread ", " as a YAML separator instead of a gomplate string literal.
+regions: [{{ join (keys .regions) ", " }}]
+tags: [{{ .tagA }}, {{ .tagB }}, {{ .tagC }}]
+
+# REGRESSION TEST: flow mapping with gomplate inside
+config: {host: {{ .host }}, port: {{ .port }}}
+labels: {app: {{ .appName }}, env: {{ .env }}}
+
+# Nested/complex cases
+multi: {{ if .debug }}debug{{ else }}release{{ end }}
+path: /{{ .tenant }}/{{ .service }}/config

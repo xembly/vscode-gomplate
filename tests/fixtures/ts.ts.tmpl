@@ -1,0 +1,43 @@
+// Basic variable substitution in TypeScript context
+const apiUrl: string = "{{ .apiUrl }}";
+const enabled: boolean = {{ .enabled }};
+const timeout: number = {{ .timeout }};
+
+// REGRESSION TEST: typed array literal with gomplate inside
+const regions: string[] = [{{ join .regions ", " }}];
+const ids: number[] = [{{ range .ids }}{{ . }}, {{ end }}];
+
+// REGRESSION TEST: typed object literal with gomplate inside
+interface Config {
+    host: string;
+    port: number;
+}
+const config: Config = {
+    host: "{{ .host }}",
+    port: {{ .port }},
+};
+
+// Generic array with gomplate
+const items: Array<string> = [{{ join .items ", " }}];
+
+// Control flow
+{{ if .featureFlag }}
+const feature: boolean = true;
+{{ else }}
+const feature: boolean = false;
+{{ end }}
+
+{{ range .modules }}
+import "{{ . }}";
+{{ end }}
+
+// Pipe operator and built-in functions
+const name: string = "{{ .name | printf "%s" }}";
+const count: number = {{ len .items }};
+
+// Variable assignment
+{{ $prefix := .prefix }}
+const prefix: string = "{{ $prefix }}";
+
+// Type assertion with template value
+const value = {{ .value }} as number;

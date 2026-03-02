@@ -1,0 +1,220 @@
+>// Basic variable substitution in TypeScript context
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>const apiUrl: string = "{{ .apiUrl }}";
+#^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+#                        ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                          ^ source.gomplate
+#                           ^^^^^^^ source.gomplate variable.other.gomplate
+#                                  ^ source.gomplate
+#                                   ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                     ^^^ source.gomplate
+>const enabled: boolean = {{ .enabled }};
+#^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+#                         ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                           ^ source.gomplate
+#                            ^^^^^^^^ source.gomplate variable.other.gomplate
+#                                    ^ source.gomplate
+#                                     ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                       ^^ source.gomplate
+>const timeout: number = {{ .timeout }};
+#^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+#                        ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                          ^ source.gomplate
+#                           ^^^^^^^^ source.gomplate variable.other.gomplate
+#                                   ^ source.gomplate
+#                                    ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                      ^^ source.gomplate
+>
+>// REGRESSION TEST: typed array literal with gomplate inside
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>const regions: string[] = [{{ join .regions ", " }}];
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+#                           ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                             ^^^^^^ source.gomplate
+#                                   ^^^^^^^^ source.gomplate variable.other.gomplate
+#                                           ^ source.gomplate
+#                                            ^ source.gomplate string.quoted.double.gomplate punctuation.definition.string.begin.gomplate
+#                                             ^^ source.gomplate string.quoted.double.gomplate
+#                                               ^ source.gomplate string.quoted.double.gomplate punctuation.definition.string.end.gomplate
+#                                                ^ source.gomplate
+#                                                 ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                                   ^^^ source.gomplate
+>const ids: number[] = [{{ range .ids }}{{ . }}, {{ end }}];
+#^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+#                       ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                         ^ source.gomplate
+#                          ^^^^^ source.gomplate keyword.control.gomplate
+#                               ^ source.gomplate
+#                                ^^^^ source.gomplate variable.other.gomplate
+#                                    ^ source.gomplate
+#                                     ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                       ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                                         ^ source.gomplate
+#                                          ^ source.gomplate variable.other.gomplate
+#                                           ^ source.gomplate
+#                                            ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                              ^^ source.gomplate
+#                                                ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                                                  ^ source.gomplate
+#                                                   ^^^ source.gomplate keyword.control.gomplate
+#                                                      ^ source.gomplate
+#                                                       ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                                         ^^^ source.gomplate
+>
+>// REGRESSION TEST: typed object literal with gomplate inside
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>interface Config {
+#^^^^^^^^^^^^^^^^^^^ source.gomplate
+>    host: string;
+#^^^^^^^^^^^^^^^^^^ source.gomplate
+>    port: number;
+#^^^^^^^^^^^^^^^^^^ source.gomplate
+>}
+#^^ source.gomplate
+>const config: Config = {
+#^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>    host: "{{ .host }}",
+#^^^^^^^^^^^ source.gomplate
+#           ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#             ^ source.gomplate
+#              ^^^^^ source.gomplate variable.other.gomplate
+#                   ^ source.gomplate
+#                    ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                      ^^^ source.gomplate
+>    port: {{ .port }},
+#^^^^^^^^^^ source.gomplate
+#          ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#            ^ source.gomplate
+#             ^^^^^ source.gomplate variable.other.gomplate
+#                  ^ source.gomplate
+#                   ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                     ^^ source.gomplate
+>};
+#^^^ source.gomplate
+>
+>// Generic array with gomplate
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>const items: Array<string> = [{{ join .items ", " }}];
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+#                              ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                                ^^^^^^ source.gomplate
+#                                      ^^^^^^ source.gomplate variable.other.gomplate
+#                                            ^ source.gomplate
+#                                             ^ source.gomplate string.quoted.double.gomplate punctuation.definition.string.begin.gomplate
+#                                              ^^ source.gomplate string.quoted.double.gomplate
+#                                                ^ source.gomplate string.quoted.double.gomplate punctuation.definition.string.end.gomplate
+#                                                 ^ source.gomplate
+#                                                  ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                                    ^^^ source.gomplate
+>
+>// Control flow
+#^^^^^^^^^^^^^^^^ source.gomplate
+>{{ if .featureFlag }}
+#^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#  ^ source.gomplate
+#   ^^ source.gomplate keyword.control.gomplate
+#     ^ source.gomplate
+#      ^^^^^^^^^^^^ source.gomplate variable.other.gomplate
+#                  ^ source.gomplate
+#                   ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>const feature: boolean = true;
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>{{ else }}
+#^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#  ^ source.gomplate
+#   ^^^^ source.gomplate keyword.control.gomplate
+#       ^ source.gomplate
+#        ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>const feature: boolean = false;
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>{{ end }}
+#^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#  ^ source.gomplate
+#   ^^^ source.gomplate keyword.control.gomplate
+#      ^ source.gomplate
+#       ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>
+>{{ range .modules }}
+#^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#  ^ source.gomplate
+#   ^^^^^ source.gomplate keyword.control.gomplate
+#        ^ source.gomplate
+#         ^^^^^^^^ source.gomplate variable.other.gomplate
+#                 ^ source.gomplate
+#                  ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>import "{{ . }}";
+#^^^^^^^^ source.gomplate
+#        ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#          ^ source.gomplate
+#           ^ source.gomplate variable.other.gomplate
+#            ^ source.gomplate
+#             ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#               ^^^ source.gomplate
+>{{ end }}
+#^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#  ^ source.gomplate
+#   ^^^ source.gomplate keyword.control.gomplate
+#      ^ source.gomplate
+#       ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>
+>// Pipe operator and built-in functions
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>const name: string = "{{ .name | printf "%s" }}";
+#^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+#                      ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                        ^ source.gomplate
+#                         ^^^^^ source.gomplate variable.other.gomplate
+#                              ^ source.gomplate
+#                               ^ source.gomplate keyword.operator.pipe.gomplate
+#                                ^ source.gomplate
+#                                 ^^^^^^ source.gomplate support.function.builtin.gomplate
+#                                       ^ source.gomplate
+#                                        ^ source.gomplate string.quoted.double.gomplate punctuation.definition.string.begin.gomplate
+#                                         ^^ source.gomplate string.quoted.double.gomplate constant.other.placeholder.gomplate
+#                                           ^ source.gomplate string.quoted.double.gomplate punctuation.definition.string.end.gomplate
+#                                            ^ source.gomplate
+#                                             ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                               ^^^ source.gomplate
+>const count: number = {{ len .items }};
+#^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+#                      ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                        ^ source.gomplate
+#                         ^^^ source.gomplate support.function.builtin.gomplate
+#                            ^ source.gomplate
+#                             ^^^^^^ source.gomplate variable.other.gomplate
+#                                   ^ source.gomplate
+#                                    ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                      ^^ source.gomplate
+>
+>// Variable assignment
+#^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>{{ $prefix := .prefix }}
+#^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#  ^ source.gomplate
+#   ^^^^^^^ source.gomplate variable.other.gomplate
+#          ^ source.gomplate
+#           ^^ source.gomplate keyword.operator.initialize.gomplate
+#             ^ source.gomplate
+#              ^^^^^^^ source.gomplate variable.other.gomplate
+#                     ^ source.gomplate
+#                      ^^ source.gomplate punctuation.section.embedded.end.gomplate
+>const prefix: string = "{{ $prefix }}";
+#^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+#                        ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                          ^ source.gomplate
+#                           ^^^^^^^ source.gomplate variable.other.gomplate
+#                                  ^ source.gomplate
+#                                   ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                                     ^^^ source.gomplate
+>
+>// Type assertion with template value
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.gomplate
+>const value = {{ .value }} as number;
+#^^^^^^^^^^^^^^ source.gomplate
+#              ^^ source.gomplate punctuation.section.embedded.begin.gomplate
+#                ^ source.gomplate
+#                 ^^^^^^ source.gomplate variable.other.gomplate
+#                       ^ source.gomplate
+#                        ^^ source.gomplate punctuation.section.embedded.end.gomplate
+#                          ^^^^^^^^^^^^ source.gomplate
+>

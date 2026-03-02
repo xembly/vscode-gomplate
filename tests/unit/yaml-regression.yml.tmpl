@@ -1,0 +1,30 @@
+# SYNTAX TEST "source.goyaml" "REGRESSION: gomplate tags inside YAML flow sequences and mappings"
+
+# Without the injection grammar, the YAML tokenizer claims [...] and {...} spans
+# before gomplate has a chance, so {{ }} inside them gets no gomplate scopes.
+# These assertions MUST FAIL with the broken grammar and MUST PASS with the fix.
+
+# --- REGRESSION 1: flow sequence ---
+regions: [{{ join (keys .regions) ", " }}]
+#         ^^ punctuation.section.embedded.begin.gomplate
+#                       ^^^^^^^^ variable.other.gomplate
+#                                 ^^^^ string.quoted.double.gomplate
+#                                      ^^ punctuation.section.embedded.end.gomplate
+
+tags: [{{ .tagA }}, {{ .tagB }}]
+#      ^^ punctuation.section.embedded.begin.gomplate
+#         ^^^^^ variable.other.gomplate
+#               ^^ punctuation.section.embedded.end.gomplate
+#                   ^^ punctuation.section.embedded.begin.gomplate
+#                      ^^^^^ variable.other.gomplate
+#                            ^^ punctuation.section.embedded.end.gomplate
+
+# --- REGRESSION 2: flow mapping ---
+config: {host: {{ .host }}, port: {{ .port }}}
+#              ^^ punctuation.section.embedded.begin.gomplate
+#                 ^^^^^ variable.other.gomplate
+#                       ^^ punctuation.section.embedded.end.gomplate
+#                                 ^^ punctuation.section.embedded.begin.gomplate
+#                                    ^^^^^ variable.other.gomplate
+#                                          ^^ punctuation.section.embedded.end.gomplate
+
