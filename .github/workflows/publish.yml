@@ -5,6 +5,9 @@ on:
     tags:
       - "v*"
 
+env:
+  NODE_VERSION: "22"
+
 jobs:
   test:
     name: Test
@@ -17,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: $NODE_VERSION
           cache: "npm"
 
       - name: Install dependencies
@@ -38,7 +41,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: $NODE_VERSION
           cache: "npm"
 
       - name: Install dependencies
@@ -49,25 +52,25 @@ jobs:
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
 
-  publish-ovsx:
-    name: Publish to Open VSX Registry
-    needs: test
-    runs-on: ubuntu-latest
+  # publish-ovsx:
+  #   name: Publish to Open VSX Registry
+  #   needs: test
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: $NODE_VERSION
+  #         cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
+  #     - name: Install dependencies
+  #       run: npm ci
 
-      - name: Publish to Open VSX Registry
-        run: npx ovsx publish --pat "$OVSX_PAT"
-        env:
-          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+  #     - name: Publish to Open VSX Registry
+  #       run: npx ovsx publish --pat "$OVSX_PAT"
+  #       env:
+  #         OVSX_PAT: ${{ secrets.OVSX_PAT }}
