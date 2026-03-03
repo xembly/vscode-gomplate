@@ -2,9 +2,10 @@
   "name": "gomplate",
   "displayName": "gomplate template renderer",
   "description": "Language support for go text/template",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "xembly",
   "license": "MIT",
+  "icon": "assets/logo.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/xembly/vscode-gomplate"
